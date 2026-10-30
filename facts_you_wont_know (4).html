@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Facts You Won't Know</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#5b9cf8;
+  --primary-dark:#3b7ddd;
+  --primary-light:#e6f1ff;
+  --text-main:#2c3a4b;
+  --text-sub:#6b7d92;
+  --card-bg:rgba(255,255,255,0.9);
+  --shadow-soft:0 10px 30px rgba(91,156,248,0.12);
+  --shadow-lg:0 18px 45px rgba(59,125,221,0.18);
+  --radius-main:24px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+  font-family:"Padauk","Plus Jakarta Sans",-apple-system,sans-serif;
+  background:linear-gradient(160deg,#eaf4ff 0%,#ffffff 45%,#e4f0ff 100%);
+  color:var(--text-main);
+  position:relative;
+}
+.decor-layer{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  overflow:hidden;z-index:1;pointer-events:none;
+}
+.light-blob{
+  position:absolute;border-radius:50%;filter:blur(60px);opacity:.55;
+  animation:floatMotion 10s ease-in-out infinite alternate;
+}
+.blob-a{width:280px;height:280px;background:#cfe6ff;top:-60px;left:-60px}
+.blob-b{width:320px;height:320px;background:#e3f1ff;bottom:-80px;right:-60px;animation-delay:-5s}
+@keyframes floatMotion{
+  0%{transform:translate(0,0) scale(1)}
+  100%{transform:translate(30px,30px) scale(1.08)}
+}
+.petal{position:absolute;background:#b9d8ff;border-radius:150% 0 150% 0;opacity:.7;animation:fallPetal 9s linear infinite}
+@keyframes fallPetal{
+  0%{transform:translate(0,-20px) rotate(0);opacity:0}
+  15%{opacity:.75}
+  85%{opacity:.75}
+  100%{transform:translate(80px,105vh) rotate(360deg);opacity:0}
+}
+.heart-particle{position:absolute;font-size:15px;opacity:.85;animation:floatHeart 6s ease-in infinite}
+@keyframes floatHeart{
+  0%{transform:translateY(100vh) scale(.6);opacity:0}
+  20%{opacity:.85}
+  80%{opacity:.85}
+  100%{transform:translateY(-10vh) scale(1.2);opacity:0}
+}
+.app-viewport{
+  position:relative;z-index:10;
+  width:100%;height:100%;
+  display:flex;justify-content:center;align-items:center;
+  padding:20px 16px;
+}
+.page{
+  position:absolute;width:100%;max-width:400px;
+  background:var(--card-bg);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-radius:var(--radius-main);
+  padding:34px 22px;
+  box-shadow:var(--shadow-lg);
+  text-align:center;
+  opacity:0;visibility:hidden;
+  transform:scale(.94) translateY(20px);
+  transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1),visibility .6s;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.page.active{opacity:1;visibility:visible;transform:scale(1) translateY(0)}
+.highlight{color:var(--primary-dark);font-weight:700}
+.page-title{
+  font-size:19px;line-height:1.75;color:var(--text-main);
+  margin-bottom:26px;font-weight:700;
+}
+.page-emoji{font-size:36px;margin-bottom:16px;line-height:1}
+.story-img{
+  width:100%;max-width:250px;border-radius:20px;display:block;
+  margin-bottom:22px;
+  box-shadow:0 12px 30px rgba(59,125,221,.20);
+  border:3px solid #ffffff;
+}
+.btn-main{
+  padding:14px 38px;font-family:inherit;font-size:16px;font-weight:700;
+  color:#ffffff;background:linear-gradient(135deg,#6fa8ff,#3b7ddd);
+  border:none;outline:none;border-radius:50px;
+  box-shadow:0 8px 22px rgba(59,125,221,.30);
+  cursor:pointer;transition:all .3s cubic-bezier(.16,1,.3,1);
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-main:active{transform:scale(.96);box-shadow:0 4px 12px rgba(59,125,221,.22)}
+.feedback-toast{
+  position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);
+  background:rgba(255,255,255,.97);padding:10px 20px;border-radius:30px;
+  box-shadow:var(--shadow-lg);font-size:13px;color:var(--primary-dark);font-weight:700;
+  white-space:nowrap;opacity:0;pointer-events:none;
+  transition:all .4s cubic-bezier(.16,1,.3,1);
+}
+.feedback-toast.show{bottom:20px;opacity:1}
+.countdown-num{
+  font-family:"Plus Jakarta Sans",sans-serif;font-size:76px;font-weight:700;
+  color:var(--primary-dark);height:96px;line-height:96px;
+  animation:popNum .8s ease infinite alternate;
+}
+@keyframes popNum{
+  from{transform:scale(.85);opacity:.6}
+  to{transform:scale(1.1);opacity:1}
+}
+.now-playing-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--primary-light);padding:6px 16px;border-radius:20px;
+  font-size:12px;font-weight:700;color:var(--primary-dark);margin-bottom:22px;
+}
+.sound-wave{display:flex;align-items:flex-end;gap:3px;height:12px}
+.sound-wave span{width:3px;background:var(--primary-dark);border-radius:2px;animation:wave 1s ease-in-out infinite alternate}
+.sound-wave span:nth-child(1){height:6px;animation-delay:.1s}
+.sound-wave span:nth-child(2){height:12px;animation-delay:.3s}
+.sound-wave span:nth-child(3){height:8px;animation-delay:.2s}
+@keyframes wave{0%{height:4px}100%{height:14px}}
+.lyrics-container{
+  min-height:150px;width:100%;position:relative;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  margin-bottom:22px;
+}
+.lyric-box{
+  opacity:0;transform:translateY(12px) scale(.96);
+  transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);
+  position:absolute;width:92%;pointer-events:none;
+}
+.lyric-box.active{opacity:1;transform:translateY(0) scale(1)}
+.lyric-en{
+  font-family:"Plus Jakarta Sans",sans-serif;font-size:13px;color:var(--text-sub);
+  margin-bottom:8px;font-weight:500;letter-spacing:.2px;line-height:1.5;
+}
+.lyric-my{font-size:18px;font-weight:700;color:var(--text-main);line-height:1.6}
+.progress-bar-wrap{
+  width:100%;height:4px;background:rgba(91,156,248,.15);
+  border-radius:4px;overflow:hidden;margin-top:6px;
+}
+.progress-bar-fill{
+  width:0%;height:100%;
+  background:linear-gradient(90deg,#8fc0ff,#3b7ddd);
+  transition:width .3s linear;
+}
+</style>
+</head>
+<body>
+<div class="decor-layer" id="decorLayer">
+  <div class="light-blob blob-a"></div>
+  <div class="light-blob blob-b"></div>
+</div>
+
+<div class="app-viewport">
+
+  <!-- PAGE 1 -->
+  <div class="page active" id="page1">
+    <div class="page-emoji">✨</div>
+    <div class="page-title">
+      <span class="highlight">မမ</span>ကို မေးခွန်းလေးနဲ့ စမ်းမေးမို့...<br>
+      ဖြေကြည့်ချင်လား?
+    </div>
+    <button class="btn-main" onclick="goToPage(2)">ဖြေမယ်</button>
+  </div>
+
+  <!-- PAGE 2 -->
+  <div class="page" id="page2">
+    <img class="story-img" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqO7zvXg2ly-Odgljh3xwl41zbr3x63wSKmc-IqrvCA&s=10" alt="story">
+    <div class="page-title">
+      <span class="highlight">မောင်.</span>မှာ ဆီးချိုရောဂါ ဖြစ်နေပြီ <span class="highlight">မမ</span>သိရဲ့လား😭
+    </div>
+    <button class="btn-main" onclick="goToPage(3)">ဘာဖြစ်လို့လဲ</button>
+  </div>
+
+  <!-- PAGE 3 -->
+  <div class="page" id="page3">
+    <div class="page-emoji">😝</div>
+    <div class="page-title" style="font-size:21px">
+      <span class="highlight">မမ</span>ရဲ့အပြုံးက အရမ်းချိုနေလို့လေ😝
+    </div>
+    <button class="btn-main" onclick="goToPage(4)">Next</button>
+  </div>
+
+  <!-- PAGE 4 -->
+  <div class="page" id="page4">
+    <div class="page-emoji">🍀</div>
+    <div class="page-title">
+      7ဆိုတဲ့ဂဏန်းက ကံကောင်းမှုကိုဖော်ပြတယ်ဆိုတာ ဟုတ်လား <span class="highlight">မမ</span>ရေ
+    </div>
+    <button class="btn-main" onclick="goToPage(5)">ဟုတ်တယ်လေ</button>
+  </div>
+
+  <!-- PAGE 5 -->
+  <div class="page" id="page5">
+    <div class="page-emoji">🤪</div>
+    <div class="page-title">
+      မှားတယ်နော <span class="highlight">မောင်.</span>ရဲ့ Lucky ဂဏန်းက ၈၈ ပါ<br>
+      ဘာလို့လဲဆိုရင် <span class="highlight">မမ</span>က <span class="highlight">မောင်.</span>ရဲ့ ချစ်ချစ် ဖြစ်နေလို့🤪
+    </div>
+    <button class="btn-main" onclick="goToPage(6)">Next</button>
+  </div>
+
+  <!-- PAGE 6 -->
+  <div class="page" id="page6">
+    <div id="p6Content">
+      <div class="page-emoji">💌</div>
+      <div class="page-title">
+        နောက်ဆုံးပါ မေးခွန်းတော့မဟုတ်ဘူး<br>
+        <span class="highlight">မောင်.</span>ရဲ့ <span class="highlight">မမ</span>ပေါ်က အမြင်လေးအကြောင်း ပြောပြချင်လို့
+      </div>
+      <button class="btn-main" onclick="startCountdown()">ပြောလေ</button>
+    </div>
+    <div id="countdownBox" style="display:none;">
+      <div class="countdown-num" id="countNum">3</div>
+    </div>
+  </div>
+
+  <!-- PAGE 7 -->
+  <div class="page" id="page7">
+    <div class="now-playing-badge">
+      <div class="sound-wave"><span></span><span></span><span></span></div>
+      <span>Now Playing</span>
+    </div>
+
+    <div class="lyrics-container">
+      <div class="lyric-box" id="lyric0">
+        <div class="lyric-en">"Picture-perfect, you don't need no filter"</div>
+        <div class="lyric-my"><span class="highlight">မမ</span>ပုံလေးက ပြည့်စုံလွန်းလို့ ပြင်စရာတောင် မလိုဘူး</div>
+      </div>
+      <div class="lyric-box" id="lyric1">
+        <div class="lyric-en">"Gorgeous, make 'em drop-dead,"</div>
+        <div class="lyric-my">ချောလွန်း မောလွန်းလို့ သေချင်စရာတောင် ကောင်းတယ်</div>
+      </div>
+      <div class="lyric-box" id="lyric2">
+        <div class="lyric-en">"you a killer"</div>
+        <div class="lyric-my"><span class="highlight">မမ</span>က လူသတ်သမား တစ်ယောက်ပဲ</div>
+      </div>
+      <div class="lyric-box" id="lyric3">
+        <div class="lyric-en">"Shower you with all my attention"</div>
+        <div class="lyric-my"><span class="highlight">မောင်.</span>ရဲ့ ချစ်စိတ်တွေ အကုန်လုံးနဲ့ <span class="highlight">မမ</span>ကို လွှမ်းခြုံပေးမယ်</div>
+      </div>
+      <div class="lyric-box" id="lyric4">
+        <div class="lyric-en">"Yeah, these are my only intentions"</div>
+        <div class="lyric-my">ဒါတွေက <span class="highlight">မောင်.</span>ရဲ့ တစ်ခုတည်းသော ရည်ရွယ်ချက်တွေပါပဲ</div>
+      </div>
+      <div class="lyric-box" id="lyric5">
+        <div class="lyric-en">"Stay in the kitchen, cookin' up, got your own bread"</div>
+        <div class="lyric-my">မီးဖိုချောင်ထဲ <span class="highlight">မမ</span>ကိုယ်တိုင် မုန့်လုပ်စားနိုင်တယ်</div>
+      </div>
+      <div class="lyric-box" id="lyric6">
+        <div class="lyric-en">"Heart full of equity, you're an asset"</div>
+        <div class="lyric-my">ပြည့်စုံတဲ့ နှလုံးသားနဲ့ <span class="highlight">မမ</span>က တကယ် တန်ဖိုးရှိလွန်းတယ်</div>
+      </div>
+      <div class="lyric-box" id="lyric7">
+        <div class="lyric-en">"Make sure that you don't need no mentions"</div>
+        <div class="lyric-my">ဒီထက်မက ပြောပြစရာမလိုအောင် သေချာအောင်လုပ်ထားပါ</div>
+      </div>
+      <div class="lyric-box" id="lyric8">
+        <div class="lyric-en">"Yeah, these are my only intentions"</div>
+        <div class="lyric-my">ဒါတွေက <span class="highlight">မောင်.</span>ရဲ့ တစ်ခုတည်းသော ရည်ရွယ်ချက်တွေပါပဲ</div>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+  </div>
+
+</div>
+
+<audio id="bgAudio" src="https://www.image2url.com/r2/default/audio/1790398956766-8af02781-76f4-45ec-b3e5-2b8ba25e36ea.mp3" preload="auto"></audio>
+
+<script>
+/* ---------- decorative particles ---------- */
+var decorLayer = document.getElementById('decorLayer');
+
+function createPetal(){
+  var p = document.createElement('div');
+  p.className = 'petal';
+  var sz = Math.random() * 10 + 8;
+  p.style.width = sz + 'px';
+  p.style.height = sz + 'px';
+  p.style.left = Math.random() * 100 + 'vw';
+  p.style.animationDuration = (Math.random() * 4 + 7) + 's';
+  decorLayer.appendChild(p);
+  setTimeout(function(){ p.remove(); }, 11000);
+}
+setInterval(createPetal, 1400);
+createPetal();
+
+var heartIcons = ['💙','🩵','✨','🌸'];
+function createHeart(){
+  var h = document.createElement('div');
+  h.className = 'heart-particle';
+  h.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+  h.style.left = (Math.random() * 90 + 5) + 'vw';
+  h.style.animationDuration = (Math.random() * 3 + 5) + 's';
+  decorLayer.appendChild(h);
+  setTimeout(function(){ h.remove(); }, 9000);
+}
+setInterval(createHeart, 2200);
+
+/* ---------- page navigation ---------- */
+function goToPage(n){
+  var cur = document.querySelector('.page.active');
+  if (cur) cur.classList.remove('active');
+  setTimeout(function(){
+    var t = document.getElementById('page' + n);
+    if (t) t.classList.add('active');
+  }, 300);
+}
+
+/* ---------- audio ---------- */
+var audio = document.getElementById('bgAudio');
+var progressFill = document.getElementById('progressFill');
+
+/* ---------- lyrics timing (seconds) ---------- */
+var lyricTimes = [
+  [1, 3], [3, 5], [5, 6], [6, 9], [9, 12],
+  [13, 16], [16, 19], [19, 22], [23, 25]
+];
+var boxes = [];
+for (var i = 0; i < 9; i++) { boxes.push(document.getElementById('lyric' + i)); }
+
+function showLyric(idx){
+  for (var i = 0; i < boxes.length; i++){
+    if (!boxes[i]) continue;
+    if (i === idx) boxes[i].classList.add('active');
+    else boxes[i].classList.remove('active');
+  }
+}
+
+/* ---------- countdown then play ---------- */
+function startCountdown(){
+  /* unlock audio during the user gesture */
+  try {
+    audio.muted = true;
+    audio.currentTime = 0;
+    var p = audio.play();
+    if (p && p.catch) p.catch(function(){});
+  } catch(e){}
+
+  document.getElementById('p6Content').style.display = 'none';
+  document.getElementById('countdownBox').style.display = 'block';
+
+  var count = 3;
+  var el = document.getElementById('countNum');
+  el.textContent = count;
+
+  var timer = setInterval(function(){
+    count--;
+    if (count > 0){
+      el.textContent = count;
+    } else {
+      clearInterval(timer);
+      goToPage(7);
+      setTimeout(startMusic, 420);
+    }
+  }, 1000);
+}
+
+function startMusic(){
+  audio.muted = false;
+  audio.volume = 1;
+  try { audio.currentTime = 0; } catch(e){}
+  var p = audio.play();
+  if (p && p.catch) p.catch(function(){});
+}
+
+/* ---------- sync lyrics + progress ---------- */
+audio.addEventListener('timeupdate', function(){
+  var cur = audio.currentTime;
+  var dur = (audio.duration && isFinite(audio.duration) && audio.duration > 0) ? audio.duration : 25;
+  var pct = Math.min((cur / dur) * 100, 100);
+  progressFill.style.width = pct + '%';
+
+  var idx = -1;
+  for (var i = 0; i < lyricTimes.length; i++){
+    if (cur >= lyricTimes[i][0]) idx = i;
+  }
+  showLyric(idx);
+});
+
+audio.addEventListener('ended', function(){
+  showLyric(boxes.length - 1);
+  progressFill.style.width = '100%';
+});
+</script>
+</body>
+</html>
